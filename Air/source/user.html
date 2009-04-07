@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Friend Deck: User Information.</title>
+		<link href="/css/default.css" rel="stylesheet" type="text/css" />
+		<link rel="icon" type="image/x-icon" href="/favicon.ico" />		
+		<META NAME="Keywords" CONTENT="">
+		<META NAME="Description" CONTENT="">
+		<META NAME="Author" CONTENT="paulk@frienddeck.com">
+		<meta name="copyright" content="Copytight Topicala Ltd 2008">
+		<script src="/scripts/jquery-1.3.1.min.js" type="text/javascript"></script>
+		<script src="/scripts/JSON.js" type="text/javascript"></script>
+		<script src="/scripts/jquery.timers-1.0.0.js" type="text/javascript"></script>
+		<script type="text/javascript" src="/scripts/frienddeck.js"></script>
+		<script>
+		
+		currentUsername =  window.currentUser.currentUser
+		username = window.currentUser.username
+			
+			$(document).ready(function(){
+				head = $("head")
+				body = $("body")
+				
+				on_resize()
+				
+				if(window.currentUser != "")
+				{
+					$("#loggedfailed").hide("fast")	
+					$("#loggedin").show("fast")	
+					$("#identity").hide("fast", on_resize)			
+				}
+				
+				$(window).resize(function(){
+					on_resize()				
+				});
+				
+				$(".comment").live("click", comment_click)
+				$(".like").live("click", like_click)
+				$(".share").live("click", share_click)
+				$(".likes").live("click", quick_column_click)
+				$(".comments").live("click", quick_column_click)
+				$(".friends").live("click", quick_column_click)
+				
+				$(".urls").live("click", function(){				
+					var url = this.title;
+					
+					if(url == "")
+					{
+						url = $(this).text()
+					}
+					
+		            var request = new air.URLRequest(url);
+		            
+		            try {            
+		                air.navigateToURL(request);
+		            }
+		            catch (e) {
+		                // handle error here
+		            }
+				})
+				
+				add_column_no_add("who:" + window.currentUser.username)
+				add_column_no_add("comments:" + window.currentUser.username)				
+				add_column_no_add("likes:" + window.currentUser.username)	
+				add_column_no_add("friends:" + window.currentUser.username)
+								
+				$(".user").live("click", function(){
+					var win = window.open('app:/user.html')
+					var username = this.title
+					win.currentUser = { 'username' : username, 'currentUser' : currentUsername}		
+				})
+				
+				$('#user').text(currentUser.username)
+			});
+			
+			</script>
+			<script type="text/html" id="entry_tmpl">
+			<div id="<%=currEntry.id%>">
+				<div>
+					<h2 style="float:left;">
+						<a href="#" title="<%=currEntry.user.nickname %>" class="user">
+							<%=currEntry.user.name%>
+						</a>
+					</h2>
+					<a href="<%=currEntry.link%>" target="_blank" class="service">
+						<img src="<%=currEntry.service.iconUrl%>" class="service_icon" />
+					</a>
+				</div>
+				<div style="clear:both;">
+					<img class="profile-img" src="http://friendfeed.com/users/<%=currEntry.user.id%>/picture?size=medium">
+					<p class="links">
+					<% if(currentUser != "" && currEntry.user.nickname != currentUser){ %>
+					[<a href="#" class="like" title="<%=type%>:<%=currEntry.id%>"><%=text%></a>] 
+					<% } %>
+					[<a href="#" class="share" title="reshare:<%=currEntry.id%> <%=currEntry.title%>">Re-Share</a>] 
+					[<a href="<%=currEntry.link%>" target="_blank">Link</a>]
+					</p>
+					<p title=""><%=createUrl(currEntry.title)%></p>
+					<p class="date">Created about <%=prettyDate(currEntry.published)%></p>					
+					<div class="comment">
+						<img src="/images/comments.png" /><p><%=currEntry.comments.length%> Comments</p>
+					</div>
+					<div class="comment-container">
+						<div><%=commentStr%></div>
+						<form class="comment-form" method="POST" action="http://www.frienddeck.com/Comment">
+							<input type="hidden" class="comment_id" name="entity_id" value="<%=currEntry.id%>" />
+							<textarea class="comment_message" name="message"></textarea>
+							<input class="comment_submit" type="submit" value="Save Comment"/>
+						</form>
+					</div>
+					<div class="seperator"></div>
+				</div>
+			</div>		
+		</script>
+		<script type="text/html" id="column_template">
+				<td class="sortableitem" id="col_<%= sanitizedfunc %>">
+					<div id="<%=sanitizedfunc %>" class="column">
+						<img class="remove_column" id="remove_column_<%=column_name %>" src="/images/cross.png" />
+						<%if(column_name.substring(0,5) == "room:") { %>
+						<img class="room-comment-img" src="/images/comment_add.png" />
+						<% } %>
+						<span class="count"></span>
+						<h1 class="query sortableitem sortablehover" style="float: left;">
+							<%=column_name %>
+						</h1>
+						<% if(column_name.substring(0,5) == "room:") { %>
+						<div class="room-comment">
+							<form class="comment-form" method="POST" action="/RoomComment">
+								<input type="hidden" class="room_name" name="room" value="<%= column_name.substring(5) %>" />
+								<textarea class="comment_message"name="message"></textarea>
+								<input class="room_submit" type="submit" value="Add Message"/>
+							</form>
+						</div>
+						<% } %>
+						<div class="property-container"></div>
+						<div class="head-seperator"></div>
+						<div class="scroll">
+							<div class="data"></div>
+						</div>
+					</div>
+				</td>
+		</script>
+		<script src="/scripts/templating.js" type="text/javascript"></script>
+		
+</head>
+<body>
+	<div class="horz-column">
+		<div style="margin: 5px; padding: 3px;">
+			See <a href="http://www.friendfeed.com/" target="_blank" id="user"></a>'s profile.
+		</div>
+	</div>
+    <div id="container" class="container"> 
+		<table cellpadding="0" cellspacing="0"><tr id="inner-container"></tr></table>
+    </div>   
+	<div id="footer" class="horz-column" style="clear:both">
+			Created by <a href="http://www.topicala.com/">Topicala Ltd</a> <a href="mailto:paul@frienddeck.com">Email me</a>.
+	</div>
+</body>
+
+</html>

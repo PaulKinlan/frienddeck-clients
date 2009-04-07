@@ -1,0 +1,26 @@
+<application xmlns="http://ns.adobe.com/air/application/1.5">
+  <id>com.frienddeck</id>
+  <version>0.3</version>
+  <filename>FriendDeck</filename>
+  <name>FriendDeck</name>
+  <description>A FriendFeed Social Data Deck</description>
+  <copyright>Copyright (c) 2009 Topicala Ltd</copyright> 
+  <installFolder>FriendDeck</installFolder> 
+  <programMenuFolder>FriendDeck</programMenuFolder>
+  <allowBrowserInvocation>true</allowBrowserInvocation>
+  <initialWindow>
+	<title>FriendDeck: Aggregating the real-time web how you want it.</title>
+    <content>index.html</content>
+    <visible>true</visible>
+    <width>1024</width>
+    <height>768</height>
+	<minSize>800 600</minSize>
+  </initialWindow>
+  <icon>
+    <image16x16>icons/16x16.png</image16x16>
+    <image32x32>icons/32x32.png</image32x32>
+    <image48x48>icons/48x48.png</image48x48>
+    <image128x128>icons/128x128.png</image128x128>
+  </icon>
+ 
+</application>

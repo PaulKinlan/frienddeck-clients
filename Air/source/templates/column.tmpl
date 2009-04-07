@@ -1,0 +1,31 @@
+<td class="sortableitem col" id="col_<%= sanitizedfunc %>">
+					<div id="<%=sanitizedfunc %>" class="column" title="<%=column_name %>">
+						<div style="float:left; overflow: hidden;">
+							<h1 class="query sortableitem sortablehover">
+								<%=column_name %>
+							</h1>
+						</div>
+						<div style="float:right">
+							<img class="remove_column" id="remove_column_<%=column_name %>" src="/images/cross.png" />
+							<%if(column_name.substring(0,5) == "room:") { %>
+							<img class="room-comment-img" src="/images/comment_add.png" />
+							<% } %>							
+							<span class="count"></span>
+						</div>
+						
+						<% if(column_name.substring(0,5) == "room:") { %>
+						<div class="room-comment">
+							<form class="comment-form" method="POST" action="http://www.frienddeck.com/RoomComment">
+								<input type="hidden" class="room_name" name="room" value="<%= column_name %>" />
+								<textarea class="comment_message"name="message"></textarea>
+								<input class="room_submit" type="submit" value="Add Message"/>
+							</form>
+						</div>
+						<% } %>
+						<div class="property-container"></div>
+						<div class="head-seperator"></div>
+						<div class="scroll">
+							<div class="data"></div>
+						</div>
+					</div>
+				</td>

@@ -1,0 +1,36 @@
+<div id="<%=currEntry.id%>">
+				<div>
+					<h2 style="float:left;">
+						<a href="#" title="<%=currEntry.user.nickname %>" class="user">
+							<%=currEntry.user.name%>
+						</a>
+					</h2>
+					<a href="<%=currEntry.link%>" target="_blank" class="service">
+						<img src="<%=currEntry.service.iconUrl%>" class="service_icon" />
+					</a>
+				</div>
+				<div style="clear:both;">
+					<img class="profile-img" src="http://friendfeed.com/users/<%=currEntry.user.id%>/picture?size=medium">
+					<p class="links">
+					<% if(currentUser != "" && currEntry.user.nickname != currentUser){ %>
+					[<a href="#" class="like" title="<%=type%>:<%=currEntry.id%>"><%=text%></a>] 
+					<% } %>
+					[<a href="#" class="share" title="reshare:<%=currEntry.id%> (<%=encodeURIComponent(currEntry.title) %>">Re-Share</a>] 
+					[<a href="<%=currEntry.link%>" target="_blank">Link</a>]
+					</p>
+					<p title=""><%=createUrl(escapeToHTML(currEntry.title))%></p>
+					<p class="date">Created about <%=prettyDate(currEntry.published)%></p>					
+					<div class="comment">
+						<img src="/images/comments.png" /><p><%=currEntry.comments.length%> Comments</p>
+					</div>
+					<div class="comment-container">
+						<div><%=commentStr%></div>
+						<form class="comment-form" method="POST" action="http://www.frienddeck.com/Comment">
+							<input type="hidden" class="comment_id" name="entity_id" value="<%=currEntry.id%>" />
+							<textarea class="comment_message" name="message"></textarea>
+							<input class="comment_submit" type="submit" value="Save Comment"/>
+						</form>
+					</div>
+					<div class="seperator"></div>
+				</div>
+			</div>

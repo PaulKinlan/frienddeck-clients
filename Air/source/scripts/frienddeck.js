@@ -230,7 +230,7 @@ function reload_column(i, column_name)
 		return //do nothing
 	}
 	
-	container.append(tmpl("column_template", {column_name:column_name, sanitizedfunc: col_name}))
+	container.append(tmpl("column.tmpl", {column_name:column_name, sanitizedfunc: col_name}))
 	
 	$("#" + col_name ).everyTime(60000, function(i) {	
 		var rand_no = Math.random();		
@@ -328,7 +328,7 @@ function add_column(column_name)
 	
 	if( query.post == null)
 	{
-		container.append(tmpl("column_template", {column_name:column_name, sanitizedfunc: col_name}))
+		container.append(tmpl("column.tmpl", {column_name:column_name, sanitizedfunc: col_name}))
 
 		$.get("http://" + url +"/AddColumn", { column: column_name})
 		on_resize()
@@ -395,7 +395,7 @@ function add_discover_column(column_name, likeminded)
 		
 	if( query.post == null)
 	{	
-		container.append(tmpl("column_template", {column_name:column_name, sanitizedfunc: sanitizedfunc}))
+		container.append(tmpl("column.tmpl", {column_name:column_name, sanitizedfunc: sanitizedfunc}))
 		$.get("http://www.frienddeck.com/AddColumn", { column: column_name})	
 		$("head").append("<script type=\"text/javascript\" src=\"" + query.query + function_name + "\"/>")
 		on_resize()
@@ -467,7 +467,7 @@ function add_column_no_add(column_name)
 	
 	if( query.post == null)
 	{
-		container.append(tmpl("column_template", {column_name:column_name, sanitizedfunc: col_name}))
+		container.append(tmpl("column.tmpl", {column_name:column_name, sanitizedfunc: col_name}))
 		on_resize()
 		
 		$("#" + col_name ).everyTime(60000, function(i) {	
@@ -686,7 +686,7 @@ function Search_Load(json, column_name)
 		
 		if (entry.length == 0)
 		{					
-			waiting.prepend(tmpl("entry_tmpl", { currentUser: currentUsername, currEntry: currEntry, commentStr:commentStr, type:type, text:text} ))
+			waiting.prepend(tmpl("friendfeed.tmpl", { currentUser: currentUsername, currEntry: currEntry, commentStr:commentStr, type:type, text:text} ))
 		}
 		else
 		{
@@ -699,7 +699,7 @@ function Search_Load(json, column_name)
 			if(is_selected == false)
 			{
 				// We are not updating elments that are being edited
-				entry.replaceWith(tmpl("entry_tmpl", { currentUser: currentUsername, currEntry: currEntry, commentStr:commentStr, type:type, text:text} ))
+				entry.replaceWith(tmpl("friendfeed.tmpl", { currentUser: currentUsername, currEntry: currEntry, commentStr:commentStr, type:type, text:text} ))
 		
 				if(comment_vis == "block")
 				{	
@@ -731,11 +731,11 @@ function Search_Twitter_Load(json, column_name)
 				
 		if (entry.length == 0)
 		{					
-			waiting.prepend(tmpl("twitter_template", { currEntry:currEntry }))			
+			waiting.prepend(tmpl("twitter.tmpl", { currEntry:currEntry }))			
 		}
 		else
 		{
-			entry.replaceWith(tmpl("twitter_template", { currEntry:currEntry }))
+			entry.replaceWith(tmpl("twitter.tmpl", { currEntry:currEntry }))
 		}
 	}
 	

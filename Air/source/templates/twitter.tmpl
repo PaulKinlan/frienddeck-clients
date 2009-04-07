@@ -1,0 +1,6 @@
+<div id="<%= currEntry.id %>">
+				<h2><a href="http://www.twitter.com/<%= currEntry.from_user %>" target="_blank"><%= currEntry.from_user %></a></h2>
+				<img src="<%= currEntry.profile_image_url %>" style="float:left; width: 48px; height: 48px; margin: 5px;" />
+				<p title=""><%= currEntry.text %></p><p class="date">Created about <%= prettyDate(currEntry.created_at) %></p>
+				<div class="seperator"></div>
+			</div>
